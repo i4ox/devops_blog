@@ -1,0 +1,134 @@
+baseURL: "https://artphnix.github.io" # URL сайта
+title: DevOps Notes # Заголовок сайта
+paginate: 100 # Пагинация
+theme: PaperModX # Тема, которая используется
+
+# Поддержка русского языка
+defaultConctentLanguage: ru # Язык по-умолчанию
+# defaultContentLanguageInSubdir: true
+languageCode: ru-RU
+languageName: Russian
+
+buildDrafts: false # Включать ли черновики в итоговый результат
+buildFuture: false # Включать ли заплонированные посты в итоговый результат
+buildExpired: false # Включать ли посты с истекщим сроком в итоговый результат
+pygmentsUseClasses: false # Позволяет использовать CSS классы для подсветки кода
+
+# Это пока что не работает
+# googleAnalytics: UA-123-45
+# disqusShortname: sos-blog-1
+
+# Данные строки оптимизируют итоговый результат
+minify:
+  disableXML: true
+  minifyOutput: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # этот пункт крайне важный
+
+params:
+  env: production # Чтобы включить различные штуки для production
+  title: DevOps Notes # Заголовок
+  keywords: [devops, linux, Blog, Portfolio, PaperModX] # Ключевые слова по которым будет искаться сайт
+  author: Arthur Lokhov
+  # author: ["Me", "You"] # multiple authors
+  # images: ["/og-preview.png"]
+  DateFormat: "January 2, 2006" # Формат для даты
+  defaultTheme: dark # Какую тему использовать
+  disableThemeToggle: true # Использовать ли переключение тем
+
+  ShowReadingTime: true # Показывать необходимое для прочтения поста время
+  ShowShareButtons: false # Показывать кнопки для того, чтобы поделиться постом
+  ShowPostNavLinks: true # Отображать ли ссылки на следующую или предыдущую статью
+  ShowBreadCrumbs: true # Над заголовком статьи будут изображены "хлебные крошки"
+  ShowCodeCopyButtons: false # Показывать ли кнопку скопировать для кода
+
+  disableSpecial1stPost: false # Хз что-это
+  disableScrollToTop: false # Отключить ли кнопку "Перемотать на самый вверх"
+  comments: false # Комментарии на статичном сайте?
+  hidemeta: false # Отклюить ли строку мета-информации для поста
+  hideSummary: false # Отключить ли отображение мета-информации на странице всех постов
+  EnableInstantClick: false # Хз что-это
+  enableEmoji: true # Поддерживать ли эмоции
+  math: true # Поддерживать ли математические формулы
+
+  showtoc: true # Включить ли меню контента
+  tocopen: true # Открыто или свернуто меню контента по-умолчанию
+  TocSide: 'left'  # or 'right'
+
+  # Иконки
+  assets:
+    favicon: "<link / abs url>"
+    favicon16x16: "<link / abs url>"
+    favicon32x32: "<link / abs url>"
+    apple_touch_icon: "<link / abs url>"
+    safari_pinned_tab: "<link / abs url>"
+
+  # Портфолио
+  profileMode:
+    enabled: true # Использовать ли страницу-портфолио
+    title: var phNix := "Phoenix" # Заголовок для профиля
+    imageUrl: "images/icon.png" # Картинка для профиля
+    imageWidth: 250 # Ширина профиля
+    imageHeight: 250 # Высота профиля
+    # Ниже можно перечислить кнопки под профилем
+    # buttons:
+    #   - name: Статьи
+    #     url: post
+
+  # Социальные сети https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-icons/
+  socialIcons:
+    - name: github
+      url: "https://github.com/artphnix"
+    # - name: gitlab
+    #   url: "Сделать аккаунт"
+    - name: email
+      url: "mailto://crai-dvps@tuta.io"
+
+  # Настройка поисковой системы
+  fuseOpts:
+    isCaseSensitive: false # Важен ли регистер
+    shouldSort: true # Использовать ли сортировку
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"] # На основе какого содержимого будет происходить поиск
+
+# Главное меню
+menu:
+  main:
+    - identifier: archives
+      name: Архив
+      url: /archives/
+      weight: 10
+    - identifier: post
+      name: Статьи
+      url: /post/
+      weight: 20
+    - identifier: tags
+      name: Теги
+      url: /tags/
+      weight: 30
+    - identifier: search
+      name: Поиск
+      url: /search/
+      weight: 50
+    - identifier: about
+      name: Обо мне
+      url: /about/
+      weight: 60
+
+
+# Настройка markdown
+markup:
+  highlight:
+    # anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    style: nord
+    tabWidth: 2
