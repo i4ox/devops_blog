@@ -1,4 +1,4 @@
-baseURL: "https://artphnix.github.io" # URL сайта
+baseURL: "https://artphnix.github.io/devops_blog/" # URL сайта
 title: DevOps Notes # Заголовок сайта
 paginate: 100 # Пагинация
 theme: PaperModX # Тема, которая используется
