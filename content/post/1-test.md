@@ -5,7 +5,7 @@ url: /artix_setup/
 tags:
 - Arch
 - Artix
-draft: false
+draft: true
 ---
 
 ![Intro](/images/intro_linux.png)
