@@ -71,9 +71,9 @@ params:
   profileMode:
     enabled: true # Использовать ли страницу-портфолио
     title: var phNix := "Phoenix" # Заголовок для профиля
-    imageUrl: "images/icon.png" # Картинка для профиля
-    imageWidth: 250 # Ширина профиля
-    imageHeight: 250 # Высота профиля
+    imageUrl: "images/avatar.gif" # Картинка для профиля
+    # imageWidth: 250 # Ширина профиля
+    # imageHeight: 250 # Высота профиля
     # Ниже можно перечислить кнопки под профилем
     # buttons:
     #   - name: Статьи

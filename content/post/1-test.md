@@ -7,7 +7,7 @@ tags:
 - Artix
 draft: true
 ---
-
+<!-- markdownlint-disable MD013 -->
 ![Intro](/images/intro_linux.png)
 
 ## Компоненты
@@ -419,4 +419,3 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 flatpak install flathub org.onlyoffice.desktopeditors
 flatpak install flathub com.bitwarden.desktop
 ```
-
