@@ -51,3 +51,90 @@ ShowPostNavLinks: false
 - Инструкция была написана под runit версию Artix.
 
 ### Создаем загрузочную флешку
+
+У Artix есть какие-то проблемы с тем, чтобы распоковать образ через balenaEtcher или через rufus, поэтому пользуемся неустариваемой классикой - командой dd.
+
+```sh
+sudo dd bs=4M conv=sync oflag=sync status=progress if=./artix.iso of=/dev/sdX
+```
+
+Незабываем заменить sdX на необходимое нам устройство.
+
+Что же теперь перейдем к базовой установке Artix.
+
+### Подключение к Wi-Fi
+
+Этот пункт опционален, так как у вас может быть проводное подключение.
+
+Для того, чтобы на Artix использовать wifi, его надо разблокировать. Для этого:
+
+```sh
+sudo rfkill unblock wifi
+```
+
+После разблокировки можно переходить к подключению.
+
+```sh
+# Из коробки доступен только connman, позже мы его заменим на networkmanager
+conmmanctl
+> scan wifi
+> services
+> agent on
+> connect wifi_id
+> exit
+ping www.google.com -c 5
+```
+
+### Файловые системы и разметка диска
+
+Перед тем, как начать базовую установку Artix, мы должны разметить файловую систему. Я буду использовать btrfs по ряду причин:
+
+- Возможность делать снимки системы;
+- Можно легко создать разделы для определенныз каталогов в системе;
+- Крайне быстрая и оптимизированная файловая система.
+
+Сначала переходим в инструмент разметки и создаем два раздела:
+
+- root
+- efi
+
+Раздел подкачки нам не нужен. Почему он нам не нужен? Будет использоваться zram как инструмент для манипуляции разделом подкачки.
+
+```sh
+sudo cfdisk /dev/sdX
+# Создаем 1Гб - Efi Partition
+# Создаем +100%FREE - Linux filesystem
+```
+
+Теперь перейдем к созданию файловой системы.
+
+```sh
+su -
+mkfs.fat -F 32 /dev/sdX1
+mkfs.btrfs -L root -f /dev/sdX2
+mount /dev/disk/by-label/root /mnt
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@opt
+btrfs subvolume create /mnt/@tmp
+btrfs subvolume create /mnt/@log
+btrfs subvolume create /mnt/@snapshots
+btrfs subvolume create /mnt/@docker
+btrfs subvolume create /mnt/@libvirt
+umount /mnt
+
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@ /dev/disk/by-label/root /mnt
+mkdir -p /mnt/{home,opt,tmp,.snapshots,var/log,var/lib/docker,var/lib/libvirt,boot/efi}
+
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@home /dev/disk/by-label/root /mnt/home
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@tmp /dev/disk/by-label/root /mnt/tmp
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@opt /dev/disk/by-label/root /mnt/opt
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@snapshots /dev/disk/by-label/root /mnt/.snapshots
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@log /dev/disk/by-label/root /mnt/var/log
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@docker /dev/disk/by-label/root /mnt/var/lib/docker
+mount -o rw,ssd,noatime,compress=zstd,space_cache=v2,commit=120,subvol=@libvirt /dev/disk/by-label/root /mnt/var/lib/libvirt
+
+mount /dev/sdX1 /mnt/boot/efi
+
+lsblk # Проверяем все ли в порядке
+```
