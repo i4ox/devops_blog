@@ -56,6 +56,7 @@ sudo apt install nala git timeshift curl build-essential
 ```
 3. Обновление системы
 ```sh
+sudo dpkg --add-architecture i386
 sudo nala update && sudo nala upgrade
 ```
 4. Установка xanmod ядра
@@ -72,4 +73,54 @@ sudo reboot
 ```
 5. Установка и удаление драйверов Nvidia
 
-Инструкция [тут](https://i4ox.github.io/devops_blog/post/debian_setup/nvidia.md)
+Инструкция [тут](https://i4ox.github.io/devops_blog/post/nvidia_debian/nvidia/)
+
+6. Установка пакетных менеджеров
+
+Cargo:
+
+```sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install alacritty # For example
+```
+
+Homebrew:
+
+```sh
+sudo nala install build-essential procps curl file git
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
+source ~/.bashrc
+brew install flameshot # For example
+```
+
+Deb-get:
+
+```sh
+sudo nala install curl lsb-release wget
+curl -sL https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get | sudo -E bash -s install deb-get
+```
+
+NixPkgs:
+
+```sh
+sh <(curl -L https://nixos.org/nix/install) --daemon
+sudo reboot
+```
+
+Flatpak:
+
+```sh
+sudo nala install flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+sudo reboot
+```
+
+Snap(если вы мазохист):
+
+```sh
+sudo nala install snapd
+sudo snap install core
+```
+
+По мере того как я буду находить что-то полезное про Debian это будет появляться тут
